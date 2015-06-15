@@ -49,7 +49,22 @@ public class ProductFeed extends Verticle
 			 System.out.println(realpath);
 			File file1 = new File(docFile);
 			String filepath = file1.getAbsolutePath();
-			System.out.println(filepath);
+			String fileName = file1.getName();
+			System.out.println(fileName);
+
+  			int extensionIndex = fileName.lastIndexOf(".");
+    			String fileExtension = fileName.substring(extensionIndex + 1);
+			System.out.println(fileExtension);
+
+
+        
+
+
+//System.out.println(ext);
+
+
+
+			System.out.println("----------------------------------"  + filepath);
 			System.out.println(file1.length());
 
 			OutputStream outputStream = null;
@@ -66,7 +81,8 @@ public class ProductFeed extends Verticle
 			outputStream.write(b);
 			}
 
-
+if (fileExtension.equals("xml"))
+{
 	File fXmlFile = new File(filepath);
 	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -92,35 +108,77 @@ public class ProductFeed extends Verticle
  
 			Element eElement = (Element) nNode;
 			System.out.println(eElement);
-			//System.out.println("Id : " + eElement.getAttribute("g:id"));
-			System.out.println("Id : " + eElement.getElementsByTagName("g:id").item(0).getTextContent());
-			System.out.println("Title : " + eElement.getElementsByTagName("g:title").item(0).getTextContent());
-			System.out.println("Description : " + eElement.getElementsByTagName("g:description").item(0).getTextContent());
-			System.out.println("Link : " + eElement.getElementsByTagName("g:link").item(0).getTextContent());
-			System.out.println("Image_link : " + eElement.getElementsByTagName("g:image_link").item(0).getTextContent());
-			System.out.println("brand : " + eElement.getElementsByTagName("g:brand").item(0).getTextContent());
-			System.out.println("Condition : " + eElement.getElementsByTagName("g:condition").item(0).getTextContent());
-			System.out.println("Availability : " + eElement.getElementsByTagName("g:availability").item(0).getTextContent());
-			System.out.println("Price : " + eElement.getElementsByTagName("g:price").item(0).getTextContent());
-			System.out.println("country : " + eElement.getElementsByTagName("g:country").item(0).getTextContent());
-			System.out.println("service : " + eElement.getElementsByTagName("g:service").item(0).getTextContent());
-			System.out.println("price : " + eElement.getElementsByTagName("g:price").item(0).getTextContent());
-			System.out.println("google_product_category : " + eElement.getElementsByTagName("g:google_product_category").item(0).getTextContent());
+			System.out.println("Id : " + eElement.getAttribute("g:id"));
+			String id = eElement.getElementsByTagName("g:id").item(0).getTextContent();			
+			String title = eElement.getElementsByTagName("g:title").item(0).getTextContent();
+			String desc = eElement.getElementsByTagName("g:description").item(0).getTextContent();
+			String link = eElement.getElementsByTagName("g:link").item(0).getTextContent();
+			String img_link = eElement.getElementsByTagName("g:image_link").item(0).getTextContent();
+			String brand = eElement.getElementsByTagName("g:brand").item(0).getTextContent();
+			String condition = eElement.getElementsByTagName("g:condition").item(0).getTextContent();
+			String availability = eElement.getElementsByTagName("g:availability").item(0).getTextContent();
+			String price = eElement.getElementsByTagName("g:price").item(0).getTextContent();
+			String country = eElement.getElementsByTagName("g:country").item(0).getTextContent();
+			String service = eElement.getElementsByTagName("g:service").item(0).getTextContent();
+			String price1 = eElement.getElementsByTagName("g:price").item(0).getTextContent();
+			String google_product_category = eElement.getElementsByTagName("g:service").item(0).getTextContent();
+
+			}			
 			
+			
+		}
+}
+if (fileExtension.equals("csv") || fileExtension.equals("tsv") )
+{
+System.out.println("Csv testing done-------------------------");
+String csvFile = filepath; //"/home/pankaj/testcsv.csv";
+	BufferedReader br = null;
+	String line = "";
+	String cvsSplitBy = ",";
+ 
+	try {
+ 
+		br = new BufferedReader(new FileReader(csvFile));
+		while ((line = br.readLine()) != null) {
+ 
+		        // use comma as separator
+			String[] country = line.split(cvsSplitBy);
+			
+			
+			System.out.println(line);
+			//System.out.println("Country [code= " + country[4] 
+                               //  + " , name=" + country[5] + "]");
+ 
+		}
+ 
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	} finally {
+		if (br != null) {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
+
+}
+
 		 Class.forName("com.mysql.jdbc.Driver");
-		 Connection connection  =DriverManager.getConnection("jdbc:mysql://localhost:3306/DPA","root","");
+		 Connection connection  =DriverManager.getConnection("jdbc:mysql://localhost:3306/DPA","root","root");
 		 PreparedStatement ps = connection.prepareStatement("insert into product_feed(name,file,schedule,time) values(?,?,?,?)");
 
 	         ps.setString(1, name);
 	         ps.setString(2, docFile);
 	         ps.setString(3, schedule);
-	       ps.setString(4, time);
+	         ps.setString(4, time);
 	         ps.executeUpdate(); 
-			
-			 
+
+	       //req.response.sendFile("demo.html");		 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

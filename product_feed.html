@@ -23,7 +23,7 @@ $(document).ready(function()
 	$('.ui.dropdown').dropdown();
 	$(function(){
     $("#timePicker").timepicker();});
-	$('#check').click(function()
+	$('#check').click(function()$
 	{
 	  if($(this).is(':checked'))
 		  {
@@ -98,18 +98,18 @@ $(document).ready(function()
      <img class="img-responsive" style=" height: 40px;" src="images/logo.gif">
   </div> 
   <div class="ui inverted divider" ></div>
- 
+ <div id="divMsg"></div>
   <div class="ui form segment">
   <form id="productFeedForm" action="http://localhost:8080/ProductFeed" method="get" enctype="multipart/form-data" >
     <div class="header">
     Create Product Feed
     <div class="ui inverted divider" ></div>
    </div>
-    <div class="field">
+    <!--<div class="field">
       <label for="FileUrl">File Url</label>
       <input class="inputField"  id="fileUrl" name="fileurl" placeholder="CSV/TSV Only" type="text" onfocus="removeMessage('msgFileUrl');"/>
       <div class="errorMsg" id="msgFileUrl"></div>
-    </div>
+    </div>-->
  <div class="field">
       <label for="FileUpload">Or Upload Local File</label>
 	<input type="text" id="mypath" readonly="readonly" placeholder="No file selected" class="inputField" onfocus="removeMessage('msgmypath');"/>  
@@ -137,7 +137,7 @@ $(document).ready(function()
         <label style="color: #555;font-size: 13px">One time only</label>
      </div>
       <div class="field" >
-      <button class="ui submit button" onclick="productFeedValidate();">Done</button>
+      <button class="ui submit button" onclick="productFeedValidate();checkFileExtension();">Done</button>
     </div>
     </form>
   </div>
